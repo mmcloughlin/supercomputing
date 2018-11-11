@@ -1,6 +1,11 @@
 Workshop on Directives Programming
 ----------------------------------
 
+Followup
+
+  https://github.com/LLNL/RAJA
+  https://github.com/kokkos/kokkos
+
 DOE Keynote
 
   General trends:
@@ -315,3 +320,122 @@ OpenMP Target Offloading
       - fundamental rework would be required
 
 
+General Plasmon Pole
+
+  Characteristics:
+
+    Can use FMA instructions
+
+    Arithmetic Intensity 1-10 (number of operations per memory access)
+    So need to optimize for memory locality / efficiency
+
+  Psudocode
+
+    Three loops
+
+  Optimized CPU
+
+    Outermost loop on threads
+    Vectorize the middle loop
+    Unroll the innermost
+
+    Fastest on Xeon Phi (2.5 seconds) as baseline
+
+  GPU
+
+    Compilers: XL (IBM), clang (coral)
+    Tested on Summit
+
+    "Naive"
+
+      Outermost over thread blocks "teams"
+      Middle over threads
+      Inner is run sequentially
+      Use atomics for correctness
+
+    Improved
+
+      Outer two loops over thread blocks.
+
+      3x performance boost
+
+    OpenACC
+
+      Same as OpenMP on XL compiler
+      Clang + OpenMP was 20% worse
+
+      Substantial differences between grid sizes chosen.
+
+    CUDA
+
+      CUDA "naive" verson was still slightly faster than OpenACC
+
+      Optimized version was 2x faster than anything else.
+
+    Summary
+
+      But, learned lessons from CUDA.
+
+      Able to get OpenMP versions with tolerable performance penalty.
+
+    Portability:
+
+      GPU-optimized OpenMP was awful on CPU.
+      CPU-optimized OpenMP was awful on GPU.
+
+      "Performance portable" is a myth.
+
+      Loop structuring is a large part of the problem. Have to be handled
+      fundamentally differently.
+
+
+OpenACC for plane-sweep line intersection
+
+  Intro:
+
+    Spatial computation has been a long-standing challenge for GPU porting.
+
+    Irregular data sizes presents a challenge, vs. known array sizes.
+
+  Target:
+
+    Geometric intersection.
+
+    Fundamental primitive is line intersection problem.
+
+      - are two lines intersecting or not, within a finite space
+      - if so, what is the intersection point?
+
+    Parallel verison, find all interesections amongst n lines.
+
+  Methods:
+
+    Brute force. Look at all pairs.
+    Heuristics.
+
+    Method used here is "Plane sweep". First work on GPU.
+
+    Completely directives-based.
+
+  How does it work?
+
+    Sweeping through the problem space. Everything it's passed has been
+    solved.
+
+    O(nlog(n)) for identification
+    O(n + klog(n)) for reporting
+
+  On GPU:
+
+    Naive version is easy but O(n^2)
+
+    Plane sweep. Maintain priority queue of events based on y-position.
+
+    events: start, end of lines, intersecton events
+
+    Inherently serial. How to modify it:
+
+    - Initialize sweep lines at start/end lines of all lines.
+    - Parallelize over sweep lines.
+    - Neighbor finding.
+    - Intersection events are produced, queued up and procesed in batches.
