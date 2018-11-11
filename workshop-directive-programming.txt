@@ -1,0 +1,317 @@
+Workshop on Directives Programming
+----------------------------------
+
+DOE Keynote
+
+  General trends:
+
+    Still have massive multi-core systems, but generally progress is towards
+    accelerators and heirarchical memory.
+
+    - Far improved memory efficiency
+    - But, harder to program, hence we require
+
+    OpenACC (vs OpenCL vs CUDA vs OpenMP)
+
+  DOE
+
+    Path of future systems
+
+      - Titan     2.3 PF
+      - Summit    
+      - ...
+      - Frontier
+
+    CAAR: Center for Accelerated Application Readiness
+
+      gathers collection of critical applications to target for acceleration
+
+    S3D
+    computational fluid dynamics models
+    navier-stokes
+    E3SM: climate model
+    LSDalton: sim large molecular systems
+    FLASH: mesh refinement code
+
+  Lessons
+
+    Up to 1-3 person years required to port each code
+      - unavoidable step
+      - difficult part is restructuring the data
+      - also pays off in *portability*
+
+    70-80% of time is spent in restructuring, regardless of programming model
+
+    New HPC systems have increasingly complex nodes for both hardware and
+    software stack.
+
+    Users need hardware features, but need a coherent stack to manage the
+    complexity.
+
+    Avoid complex hardware features for portability. Standards based approaches
+    are preferred.
+
+    Having multiple compilers helps for risk mitigation, but one may not be
+    enough. Need OpenACC + fast CPU compiler.
+
+    (Notes that Fortran is still widespread.)
+
+    Vendor tuning of 3rd party libraries. Science libraries etc.
+
+  Challenges
+
+    Need abstractions for performance portability
+    + high quality implementations on each system
+
+    Expose memory heirarchies in programming models
+
+    Decouple parallelism from how it is mapped to the architecture.
+
+    Adapative runtimes.
+
+    Library support that's uniform across accelerated and non-accelerated
+    systems)
+
+  Benchmarks
+
+    Not clear results between OpenACC vs OpenMP across a range of benchmarks.
+
+  Tooling
+
+    Gather static-analysis information for code running on supercomputers.
+
+    Automatically gather information:
+
+      - C/C++
+      - Statement counts
+      - % OpenMP / OpenACC
+      - ...
+
+    Hope to combine this with runtime information and stats from systems to get
+    reliable
+
+  Summary
+
+    Accelerated-node supercomputing is well established now.  Many large
+    deployments.
+
+    Increasingly complex node hardware needs to be carefully managed.
+
+    Strong emphasis on directives-based programming models.
+
+    Gathering benchmarks to properly evaluate the models.
+
+
+Session 1:
+
+  Optimizaiton of GTC with OpenACC
+
+    Intro
+
+      Related to Fusion energy
+      International experiment.
+      30x30 toroidal chamber.
+      Produce alpha particles, need to confine plasma to fusion can occur.
+      Simulations are required for each ITER experiment.
+      (Each one lasts a few minutes but costs $2M)
+
+    Porting
+
+      Particle-in-cell physics models + fluid models
+
+      PIC:
+        particles in 5D/6D phase space
+        electromagnetci fields on 3D fixed grids
+
+      Parallelization:
+
+        MPI domain decomposition for particle field
+        MPI particle decomposition over the grids
+        OpenMP loop-level parallelism
+
+      To port to GPU, we use same MPI parallelizations
+
+        Port to OpenACC to make use of GPU
+
+      Restructured code to have unifired subroutines for particles
+
+        push - gather fields
+        charge - scatter to grids
+          Scatter can be moved to GPU, use `acc atomic update`
+        shift - send to MPI domain
+
+      Particle binning & data locality:
+
+        rearrange particle arrays every few steps to maintain data locality
+
+        enable texture cache on Titan Kepler GPU
+
+        both AoS and SoA data layouts used
+
+        major improvement by mapping to local memory
+        optimization allowed *coalesced access*
+
+    Scaling
+
+      Weak scaling on Titan when using up to half the machine.
+
+      ...
+
+      OpenACC directives provided good performance, and ease of maintenance
+
+      However... doesn't solve memory management issues for you.
+
+
+Kernels from Molecular Simulation
+
+  Performance Portability
+
+    Not just labor costs
+
+    More error-prone:
+
+      - multiple authors
+      - bugs can creep in
+
+  Types of portability
+
+    Binary portability
+    Source portability
+
+    Costs can be money, but also stress
+
+    "Performance portability"
+
+    Not just correctness, but performs remains in an "acceptable range to be
+    usable by domain scientists for competitive research".
+
+  Funding
+
+    DOE + NSF have started funding efforts.
+
+  Best Practices
+
+    General software engineering:
+
+      Modular format
+      Simplicity
+      Dedicated portable version
+      Use a high-level interface so the backend can be swapped out
+
+  Case study: classical modular dynamics
+
+    Extensive effort in porting
+    Use many non-portable components: CUDA + SIMD
+
+    This type of code is inherently serial in time
+    + have to minimize time step
+
+    So metric is "time per step"
+
+  Key kernels:
+
+    Short-range non-bonded forces interaction
+    Function of Pairwise distance
+
+    Domain decomposition:
+
+      grid
+      look at interaction with 27 nearest grid positions
+
+    Goal:
+
+      keep a distance calculation under 7ms per timestep
+
+  Experiments:
+
+    Binning easy in OpenACC
+
+    For the distance calculations:
+
+      - OpenACC (CPU / GPU)
+      - vs CUDA
+      - vs library-based BLAS version
+
+    Experience:
+
+      - On CPU, BLAS or Intel MKL was faster than naive OpenMP.
+      - OpenACC very easy to write
+      - CUDA also not that bad
+      - BLAS has a lot more memory ops (but trivial to write, without any
+        assumption about the machine)
+
+    Perf:
+
+      - OpenACC is substantially slower than CUDA, by 1.4-2x
+      - Also poor on CPU (could make better use of intrinsics?)
+      - BLAS was up to 4x slower
+
+  Ease of programming:
+
+    Compiler support difficulties actually made OpenACC harder than CUDA.
+
+    But, get performance portability for it.
+
+    Have to take up to 2x hit.
+
+
+OpenMP Target Offloading
+
+  How to compilers handle executing OpenMP code on GPUs.
+
+  1. Handling Serial & Parallel codes
+
+    If we have some parallel code, and some serial code, we need warp
+    specializaiton with a master thread/warp to synchronize.
+
+    If there is no serial section, it can be executed far more efficiently.
+    The compiler realizes that the entire kernel is parallel and does not need
+    a master thread.
+
+  2. Overlapping memory transfers
+
+    Can use `omp target data` and `omp target update` to ensure data transfers
+    are overlapped with computation.
+
+  3. Pipelining
+
+    Similar. Slices up large data block to enable overlapping a large kernel.
+
+    "Hack" required to specify the dependence.
+
+  4. Tailor GPU Grid Geometry to Parallel Loop
+
+    Compilers often use default grid geometries that can perform poorly.
+
+    Sometimes makes sense to deliberately undersubscribe the GPU if
+
+      - Register pressure / other resource contention
+      - Memory bandwidth bound applications
+
+  Summary
+
+    These heuristics are not ground-breaking for people who've written CUDA
+    before.
+
+    But with OpenMP we need to encode these heuristics into compilers.
+
+    - Removing serial sections can help
+    - Split target regions in to several simpler kernels can help
+    - Overlapping memory transfers / pipelining large transfers
+    - CH
+
+    OpenMP spec is very prescriptive. Limits compiler optimization.
+
+  Caveat:
+
+    All of these were measured by making manual transformations.
+
+    But *could* be done in the compiler.
+
+    Looked into adding it to Clang, but the problem is:
+
+      - directives operate at the AST level
+      - required compiler analyses are at the IR level
+      - fundamental rework would be required
+
+
