@@ -208,3 +208,159 @@ Similar to register allocation.
 * Pipelining
 * Operator scheduling
 
+
+## Pointers in OpenMP Lambda CLosures
+
+"Performance Portability Frameworks"
+
+Frameworks using higher-order functions for loop constructs have become more
+ergonomic with the introduction of lambdas. Example:
+
+* RAJA
+* Kokkos
+
+These include OpenMP backends.
+
+Until OpenMP 5 the spec did not say what should be done with lambda functions
+called in offload regions.
+
+### How do Lambdas Work?
+
+Conceptually, transformed to anonymous class for the closure, with overloaded
+call operator for the body itself.
+
+On the host, pointers exist in the same address space, so no complication.
+
+If you offload the anonymous class, you'll have __host__ pointer addresses.
+
+You can workaround this by wrapping the lambda creation point in an openmp
+pragma. But this **breaks the abstraction** that frameworks like RAJA are
+trying to create.
+
+The compiler needs to map any pointers in lambdas if they are called from
+device functions.
+
+### Design
+
+Do not recursively map pointers in objects.
+
+Each pointer mapped requires 2 loads and 2 stores... poor perf.
+
+Unfortunately this is arguably confusing behavior.
+
+### Results
+
+Tested on LULESH & TeaLeaf.
+
+Pure OpenMP implementations are substantially faster (25%), compared to RAJA.
+
+RAJA uses STL-style iterators (begin, end) which has a **lot of overhead**.
+
+But, performance of the explicit vs. compiler-assisted offload was nearly
+identical. This was confirmed by TeaLeaf too.
+
+### Conclusion
+
+* Implicit compiler mapping for lambda closures gives equivalent performance.
+* If the compiler is able to optimize loops correctly (RAJA can cause issues),
+  lambda performance is equivalent.
+
+
+## Clacc: OpenACC in Clang
+
+* OpenACC in Clang
+* Map to OpenMP
+
+### OpenACC
+
+Portable programming model for heterogeneous accelaerators.
+
+Looks like OpenMP... directive based.
+
+Aimed at incremental development of 
+
+### Difference with OpenMP
+
+OpenACC is for multi-core CPU **and** GPUs.
+
+* OpenACC is "descriptive"
+* OpenMP is "prescriptive"
+
+Now OpenACC features are making their way into OpenMP.
+
+Now OpenMP is **large**. OpenACC is a tractable smaller subset.
+
+Also architecture differences. Translator is valuable.
+
+### OpenACC compilers
+
+* Commercial: PGI
+* Open Source: GCC
+* Academic: OpenARC, ROSE, ...
+
+Why LLVM? Licensing. Also easier to build new tools on top.
+
+### Objectives
+
+* Production quality compiler.
+* Enable research and development of source-level OpenACC tools.
+* Contribute to Clang upstream (currently a fork)
+* Throughout development: contributing patches
+
+### Design: Translate OpenMP to OpenACC
+
+Pragmatic choice. Build on the OpenMP implementation.
+
+Makes sense: descriptive to prescriptive.
+
+OpenMP is an "IR". Should not be exposed to the user. Requires full validation
+of OpenACC upfront.
+
+Also enables:
+
+* Resusing OpenMP tools.
+
+### Design Alternatives
+
+A:
+
+* No OpenACC AST
+* Hard to build source-level OpenACC tools
+
+B:
+
+* No OpenMP AST
+* Hard to support non-traditional user
+
+C:
+
+* OpenACC AST to OpenMP AST
+
+Adopted C. But:
+
+* What about cases where OpenACC does not map to OpenMP well
+* Represent OpenACC in LLVM IR for improved analyses
+* What about source-to-source?
+
+### acc2omp alternatives
+
+1. Replace with OpenMP. NO: clang AST immutable
+2. Annotate with OpenMP. Use clang rewrite, reparse to build OpenMP AST. NO:
+   poor compilation performance.
+3. Add hidden OpenMP subtree. Doesn't violate immutability, it's adding nodes.
+   Use clang `TreeTransform` facility.
+
+### Long Term Plan
+
+* Focus on C. Later C++
+* Prescriptive then descriptive interpretation.
+  - "prescriptive" = one-to-one mapping to OpenMP
+  - "descriptive" = analyses needed to determine best mapping
+* Shared memory multi-core then GPUs and other accelerators
+
+### Evaluation against PGI
+
+Suggests next steps:
+
+* Support for GPUs
+* Descriptive OpenACC interpretation
