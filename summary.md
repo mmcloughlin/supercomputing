@@ -2,7 +2,8 @@
 
 ## Followups
 
-* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos)
+* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
+* [CodePlay](https://www.codeplay.com/)
 
 ## Overall Thoughts
 
