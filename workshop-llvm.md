@@ -364,3 +364,437 @@ Suggests next steps:
 
 * Support for GPUs
 * Descriptive OpenACC interpretation
+
+
+## -fsimdmath on ARM
+
+### Arm Development Solution Group
+
+Developer tooling:
+
+* compilers
+* simulators
+* debuggers
+
+Compilers for HPC:
+
+* LLVM-based and GCC
+* C/C++/Fortran
+* SIMD (NEON + SVE)
+
+Libraries:
+
+* BLAS / FFTW
+* libamath / libm
+
+### Problem Statement
+
+"Vectorize calls to C99 math functions"
+
+```
+#include "math.h"
+
+...
+
+  for(int i = 0; i < N; i++) {
+    y[i] = sin(x[i])
+  }
+```
+
+### Ingredients
+
+Need to know:
+
+* Name and signature of scalar function
+* Vectorization factor
+* Masking
+* Target vector extension
+
+Also need a vectorized math library. Use SLEEF, packaged as `libsimdmath`.
+
+### Vector function ABI for AArch64
+
+Vector procedure call standard "AVVPCS"
+
+Name manging for SIMD vector functions.
+
+* `_ZGV` for vector function
+* neon or SVE
+* masked or now
+* vectorization factor
+
+### SLEEF
+
+Vectorized versions of *all* C99 functions. Many supported arch/OS/ISA.
+
+"Meta" language in C. Easy to extend with helper header files.
+
+### Implementation
+
+Split between front-end and backend.
+
+* Directives in custom "math.h" header
+* Global declarations map from scalar functions to expected vector signature
+
+Backend:
+
+* Loop Vectorizer
+* TargetLibraryInfo
+* Global declarations are lost.
+
+Built with extensibility in mind. Could be used for other backends too (as
+long as there is a naming convention for the vectorized).
+
+Very hard to unit test.
+
+### Driver
+
+```
+-fsimdmath -> -fopenmp-simd -D__SIMDMATH=1 -lsimdmath
+```
+
+Extendable to other libraries FOO.
+
+### Results
+
+Promising. Also not promising.
+
+* Significant speedup on `qmcpack`.
+* No significant speedup on other codebases.
+* Reason: no Arm specific optimizations in the library.
+* Reason: used 1 ULP verison of SLEEF rather than 3.5
+
+### Tried to upstream
+
+* Already have `-fveclib`.
+* Already have OpenMP `declare simd`
+* Need to decouple vectorization from the frontend
+
+Working on replacing impl. of `-fveclib`.
+
+* OpenMP 5 adds `declare variant`
+
+
+## Function/Kernel Vectorization via Loop Vectorizer
+
+(missed part of this)
+
+### Problem
+
+Loop contains library call. Can't be vectorized.
+
+### Proposal
+
+Library functions can declare SIMD versions (with directives).
+
+These are recognized and enable the loop to be vectorized.
+
+### Implementation
+
+Trunk has 3 vectorizers:
+
+* Loop Vectorizer
+* SLP Vectorizer
+* Load-Store Vectorizer
+
+No need to create one more. Reuse loop vectorizer.
+
+### Resources
+
+* http://lists.llvm.org/pipermail/cfe-dev/2016-March/047732.html
+* https://reviews.llvm.org/D22792
+
+
+## User-directed Loop Transformations in Clang
+
+### Examples
+
+```
+#pragma unroll
+for(int i = 0; i < 4; i++) {
+  f(i)
+}
+```
+
+Or
+
+`#pragma unroll 4`
+
+will unroll into a block, with duff's device.
+
+**Many** many more types of pragmas.
+
+### Advantages
+
+* Separation of sematics ans optimization.
+* Different optimizations for different platforms (with preprocessor)
+* Safe semantics. Loop autotuning.
+* Easy to experiment.
+
+### Downsides
+
+* Fragile (compiler may not be able to to apply it.
+* Missing domain knowledge
+* Incompatible with OpenMP
+* Compiler-specific
+
+### Proposal
+
+OpenMP proposal.
+
+```
+#pragma omp loop(...) transformation switch option(...)
+```
+
+* `#pragma` order is taken into account
+* loops can have identifiers
+* `#pragma fuse` (and others) can take multiple input loops (as ids)
+* or pragmas can produce multiple loops
+* with ids... pragmas can be moved away from the loop itself
+
+### Prototype
+
+Based on Clang/LLVM/Polly pipeline.
+
+Passes loop metadata in IR.
+
+Uses `#pragma clang loop() ...` since not in OpenMP yet.
+
+### Internals
+
+Preprocessor:
+
+* Replaces `#pragma ...` with a special "annotation token" for the parser.
+* Prototype has its own (similar) token
+
+Parser:
+
+* In OpenMP, Sema::ActOnOpenMP<Construct>Directive()
+* In prototype, creates Loop attribute.
+
+AST:
+
+* Adds `Loop<Type>Attr` AST nodes. Wrapped in `AttributedStmt`.
+* Table gen'd `Attr.td`
+
+IR:
+
+* `LoopInfo` collects `LoopTransformation` objects
+* Updates `llvm.looptransform` function metadata
+
+
+## OP2: DSL in Clang/LibTooling
+
+Accelerators are rapidly changing. "Future proof" HPC applications:
+
+* DSL to **declare** the problem
+* Without specifying its implementation
+* Create a lower implementation level.
+
+Large companies already use these kinds of DSLs.
+
+Need tools that are:
+
+* Robust
+* Maintainable
+* general methods
+* Open source
+
+... to foster development of DSLs.
+
+Propose skeleton technique for writing DSLs with Clang/LibTooling.
+
+### OP2
+
+* Oxford Pralllel Libary for Unstructured Solvers
+* Operates on unstructured grids - graph structure
+* Explicit connections
+* Parallelization is difficult to avoid races
+
+OP2 helps by offering:
+
+* Defining sets
+* Datasets on sets
+* Mappings
+* Parallel loops
+
+Looks like C. Workflow:
+
+* OP2 -> C -> regular compiler
+
+### Implementation
+
+Python-based translater so far. But... with Clang we would get:
+
+* Syntax checking
+* Semantic checks
+* Automatic macro and expression evaluation
+* Generalizes better to other domains
+
+Use LibTooling.
+
+### Libtooling
+
+* Search in AST for changes in source code.
+* Good for small/local changes.
+* Hard to handle significant structural changes.
+
+Transformation is:
+
+1. Collect data a modify the OP2 files.
+2. Code generation
+
+### Technique
+
+Write functions in C that call a known "skeleton" (marker) function. Parse it
+to get the AST. This is a template. Call it "invariant code" because it
+doesn't change.
+
+We can now process the template and replace the skeleton with the actual
+function to be called.
+
+Advantages:
+
+* Easy to extend
+* Easy to write
+* More robust code generation
+* "Invariants" or "templates" are themselves code, so are verified by clang
+
+### Summary
+
+Targets OpenMP, vectorized, CUDA
+
+### Future
+
+* Generalize to other structured applications
+* Propagate information to IR
+* Optimization passes at IR level
+
+
+## PInT: Pattern Instrumentation Tool
+
+* Understand development & optimization efforts
+* Consider parallel patterns in code and calculate metrics
+* Specifically, how much effort to parallelize
+
+```
+Source code -> Detect Patterns -> Structure Extraction -> Metrics
+```
+
+Manual pattern recognition is difficult and time-consuming.
+
+### Example Patterns
+
+Map / Reduce / Critical / ...
+
+Mattson et. al.
+
+* Finding concurrency
+* Algotihm structure
+* Supporting structure
+* Implementation level
+
+### Tool Goals
+
+Should work with most HPC code: C/C++, Fortran, OpenMP, MPI
+
+Clang LibTooling
+
+* Exchangable pattern definitions
+* Visualization
+* Data export
+
+### Steps
+
+* Code has to be instrumented manually by the user.
+* Clang used to get AST.
+* -> PInT pattern graph
+* -> User-defined metrics.
+
+### Instrumentation
+
+`Pattern_{Begin,End}` calls.
+
+Have to manually identify patterns in the code.
+
+### Implementation: Vistor
+
+`VisitCallExpr` finds the string literal in pattern calls.
+
+Processed into a pattern graph.
+
+
+## AIWC: OpenCL-Based Architecture Independent Workload Characterization
+
+(missed)
+
+## Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM
+
+Optimize for locality (on DSP)
+
+* Tile loops.
+* Fuse kernels.
+* Overlap transfers and computation.
+
+On multi-core CPU want to optimize for parallelism.
+
+* SPIR optimized for parallelism.
+
+Want to **write once** such that we can:
+
+* optimize for locality on DSP
+* optimize for parallelism on their developer workstation
+
+Implemented in LLVM.
+
+## A Study of OpenMP Device Offloading in LLVM: Correctness and Consistency
+
+Various "bugs" / spec inconsistency between OpenMP code on CPU / GPU:
+
+* Barrier
+* Memory Fence
+* Shadowed Data Race
+
+Planning TSAN-like tool to automatically find these problems. Contributing
+back to LLVM.
+
+## Challenges of C++ Heterogeneous Programming Using SYCL Implementation Experience: the Four Horsemen of the Apocalypse
+
+C++ Heterogeneous
+
+- OpenCL
+- OpenML
+- SYCL
+
+with
+
+- kokkos
+- raja
+- boost compute
+- cuda
+
+Road to standardization?
+
+* Execution models, and methods of execution.
+* Need a unified layer between them
+
+Data representation:
+
+* Implicit or explicit data movement?
+* Row/col major
+* SoA or AoS
+
+Affinity:
+
+* Near or far?
+
+Directions... can it be done in C++
+
+* Preference for small movement not large changes
+
+Or:
+
+* SYCL?
+* https://www.khronos.org/spir/
+
+

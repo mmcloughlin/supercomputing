@@ -3,11 +3,15 @@
 ## Followups
 
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
-* [CodePlay](https://www.codeplay.com/)
+* ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
+* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/, https://github.com/RWTH-HPC/PInT
+* Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
+
 
 ## Overall Thoughts
 
 * **Performance Portability** is still the holy grail. Directives-based approaches don't quite make it. Hope to see more experimentation in language design in this area.
+* **DSLs** Glow, OP2
 * **Quantifying Results** A little disappointed by rigor in the way some presentations reported results. Need greater collection of benchmarks, and resources to enable testing over many platforms (where "performance portability" is claimed).
 
 ## Sessions
