@@ -1,6 +1,7 @@
 # Workshop on LLVM in HPC
 
 https://llvm-hpc5-workshop.github.io/
+http://conferences.computer.org/scw/2018/#!/toc/4
 
 ## Related Events
 

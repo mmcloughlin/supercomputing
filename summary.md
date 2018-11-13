@@ -35,3 +35,20 @@ Thoughts:
 * One of the later [case studies](https://sc18.supercomputing.org/presentation/?id=ws_waccpd109&sess=sess155) directly contradicted the "performance portability" case, citing huge slowdowns of the GPU-optimized OpenMP code on CPU (and vice versa).
 * The [OpenMP Target Offloading](https://sc18.supercomputing.org/presentation/?id=ws_waccpd104&sess=sess155) talk was also interesting but disheartening. Essentially it focussed on various optimizations that a compiler could apply (in theory). Unfortunately the OpenMP spec is unclear in whether these are allowed, and moreover they are difficult to perform at in clang (OpenMP later is handled in the Frontend, wheras complier analyses are at the LLVM/IR level)
 * The [Plane Sweep Algorithm](https://sc18.supercomputing.org/presentation/?id=ws_waccpd108&sess=sess155) was difficult to follow, but interesting as an example of using OpenACC for non-standard applications.
+
+### Workshop: LLVM Compiler Infrastructure in HPC
+
+TL;DR; for selected talks
+
+* The keynote on Facebook's ML compiler [Glow](https://facebook.ai/developers/tools/glow) was worthy of the name.
+
+---
+
+* Pointers in OpenMP Lambda CLosures
+* Clacc: OpenACC in Clang
+* -fsimdmath on ARM
+* Function/Kernel Vectorization via Loop Vectorizer
+* User-directed Loop Transformations in Clang
+* OP2: DSL in Clang/LibTooling
+* PInT: Pattern Instrumentation Tool
+* Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM
