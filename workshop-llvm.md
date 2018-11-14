@@ -5,8 +5,8 @@ http://conferences.computer.org/scw/2018/#!/toc/4
 
 ## Related Events
 
-* BoF: LLVM in HPC, Tues Nov 13
-* BoF: C++ and Heterogeneous Programming
+* [BoF: LLVM in HPC](https://sc18.supercomputing.org/?post_type=page&p=3479&id=bof111&sess=sess372), Tues Nov 13
+* [BoF: C++ and Heterogeneous Programming](https://sc18.supercomputing.org/?post_type=page&p=3479&id=bof175&sess=sess429)
 * BoF: OpenMP
 
 ## Keynote: Glow: An Optimizing Compiler for High-Performance Machine Learning

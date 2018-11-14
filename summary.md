@@ -4,7 +4,9 @@
 
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
 * ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
-* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/, https://github.com/RWTH-HPC/PInT
+* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
+  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/
+* x86 machine check architecture?
 * Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
 
 
@@ -52,3 +54,44 @@ TL;DR; for selected talks
 * OP2: DSL in Clang/LibTooling
 * PInT: Pattern Instrumentation Tool
 * Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM
+
+---
+
+### Keynote
+
+**TL;DR;**
+
+### Resilience
+
+* GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan
+* FlipTracker: Understanding Natural Error Resilience in HPC Applications
+
+* Lessons Learned from Memory Errors Observed Over the Lifetime of Cielo
+* Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities
+* Evaluating and Accelerating High-Fidelity Error Injection for HPC
+
+
+### Doctoral Showcase
+
+* In-Memory Accelerator Architectures for Machine Learning and Bioinformatics
+
+### Large-Scale Algorithms
+
+* Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers
+  ...
+* TriCore: Parallel Triangle Counting on GPUs
+  this was good!
+* Distributed-Memory Hierarchical Compression of Dense SPD Matrices
+  ...
+
+### Task-based Programming
+
+* Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes
+* Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs
+* A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints
+
+### Resource Management
+
+RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
+Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
+Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing 
