@@ -63,12 +63,12 @@ TL;DR; for selected talks
 
 ### Resilience
 
-* GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan
-* FlipTracker: Understanding Natural Error Resilience in HPC Applications
+* GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan: "Leadership jobs" are a class of high priority jobs on the Titan supercomputer, typically long-running and occupying 20+% of the machine, hence they are far more suceptible to GPU errors. This talk demonstrated improvements by biasing leadership jobs to stable GPUs.
+* FlipTracker: Understanding Natural Error Resilience in HPC Applications: automated analysis of application error resilience by injecting instruction-level bit errors. Definition of 6 resilient patterns, and demonstrated their use to improve resilience.
 
-* Lessons Learned from Memory Errors Observed Over the Lifetime of Cielo
-* Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities
-* Evaluating and Accelerating High-Fidelity Error Injection for HPC
+* Lessons Learned from Memory Errors Observed Over the Lifetime of Cielo: Data analysis of memory errors over the entire lifespan of Cielo. Impressive dataset but more or less a "non result": did not find expected age-dependence, and did not show that correctable errors predicted future uncorrectable errors.
+* Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities: exploration of a middle-ground between checkpointing and replication (running two copies) for handling unreliable nodes. At high scale, checkpointing becomes less favorable than replication, but always one of them is preferred over partial replication (replicating subset of tasks). However existing work had assumed equal failure rates of all nodes, which is not borne out in practice. This paper demonstrated that in non-uniform failure rate cases, a (fairly obvious) partial replication scheme can give optimal expected completion time.
+* **Evaluating and Accelerating High-Fidelity Error Injection for HPC**: This explored a mechanism of improving fielity of error injection methods. We can inject at (from low to high): RTL (register transfer language), microarch and instruction level. At the lowest level these are __extremely__ expensive, but high level approaches are too __unrealistic__. TODO
 
 
 ### Doctoral Showcase
