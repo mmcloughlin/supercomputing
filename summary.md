@@ -5,7 +5,7 @@
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
 * ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
 * Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
-  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/
+  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp
 * x86 machine check architecture?
 * Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
 
@@ -70,16 +70,15 @@ TL;DR; for selected talks
 * Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities: exploration of a middle-ground between checkpointing and replication (running two copies) for handling unreliable nodes. At high scale, checkpointing becomes less favorable than replication, but always one of them is preferred over partial replication (replicating subset of tasks). However existing work had assumed equal failure rates of all nodes, which is not borne out in practice. This paper demonstrated that in non-uniform failure rate cases, a (fairly obvious) partial replication scheme can give optimal expected completion time.
 * **Evaluating and Accelerating High-Fidelity Error Injection for HPC**: This explored a mechanism of improving fielity of error injection methods. We can inject at (from low to high): RTL (register transfer language), microarch and instruction level. At the lowest level these are __extremely__ expensive, but high level approaches are too __unrealistic__. TODO
 
-
 ### Doctoral Showcase
 
-* In-Memory Accelerator Architectures for Machine Learning and Bioinformatics
+* In-Memory Accelerator Architectures for Machine Learning and Bioinformatics: 
 
 ### Large-Scale Algorithms
 
 * Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers
   ...
-* TriCore: Parallel Triangle Counting on GPUs
+* **TriCore: Parallel Triangle Counting on GPUs**
   this was good!
 * Distributed-Memory Hierarchical Compression of Dense SPD Matrices
   ...
@@ -92,6 +91,12 @@ TL;DR; for selected talks
 
 ### Resource Management
 
-RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
-Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
-Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing 
+* RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
+* Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
+* Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing 
+
+### Arithmetic and Optimization
+
+* **Associative Instruction Reordering to Alleviate Register Pressure**
+* **Harnessing GPU's Tensor Cores Fast FP16 Arithmetic to Speedup Mixed-Precision Iterative Refinement Solvers**
+* **ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**
