@@ -4,10 +4,13 @@
 
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
 * ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
+* `bfloat16` (generally `int8`, `fp16` in ML) https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf
 * Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
-  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp
+  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/
+* http://tacc.github.io/SDVis/ https://sites.utexas.edu/jdm4372/
 * x86 machine check architecture?
 * https://cavium.com/
+* GEMM (General Matrix Multiply), [LIBXSMM](https://github.com/hfp/libxsmm)
 * Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
 
 
@@ -94,10 +97,28 @@ TL;DR; for selected talks
 
 * RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
 * Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
-* Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing 
+* **Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing**
 
 ### Arithmetic and Optimization
 
 * **Associative Instruction Reordering to Alleviate Register Pressure**
 * **Harnessing GPU's Tensor Cores Fast FP16 Arithmetic to Speedup Mixed-Precision Iterative Refinement Solvers**
 * **ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**
+
+### Programming Systems Tools
+
+* **ParSy: Inspection and Transformation of Sparse Matrix Computations for Parallelism**
+* Detecting MPI Usage Anomalies via Partial Program Symbolic Execution
+
+
+
+### Deep Learning
+
+* **Exploring Flexible Communications for Streamlining DNN Ensemble Training Pipelines**
+* **Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures**
+
+
+# File Systems: Data Movement and Provenance
+
+* Dac-Man: Data Change Management for Scientific Datasets on HPC Systems 
+* Stacker: An Autonomic Data Movement Engine for Extreme-Scale Data Staging-Based In Situ Workflows 
