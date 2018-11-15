@@ -84,7 +84,7 @@ TODO
 
 * In-Memory Accelerator Architectures for Machine Learning and Bioinformatics: Content-addressable-memory (CAM) has a grid of bits. Can execute search and write on grid positions matching a pattern. Memristors allow implementation of CAM with __much smaller bit size__. Demonstrated substantial gains for K-Means, K-nearest-neighbors, Smith-Waterman (similar subsquence finding), among other applicaitons in ML and computational biology. Claims that non-von-neuman architectures (_compute in memory_) will provide the next orders of magnitude improvements.
 
-### Large-Scale Algorithms
+### [Large-Scale Algorithms](large-scale-algorithms.md)
 
 * [Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers](paper/pap171s4-file1.pdf) This talk was delivered far to quickly in my opinion (used 15 minutes of the allowed 30), and I don't think I was the only one left a bit baffled. As far as I can tell, they gained a massive speedup from a new partitioning scheme.
 
@@ -92,20 +92,15 @@ TODO
 
 * [Distributed-Memory Hierarchical Compression of Dense SPD Matrices](papers/pap141s4-file1.pdf) This talk went too deep to quickly. Due to missing context, I didn't take much away from this one.
 
----
+### [Resource Management](resource-allocation.md)
 
-#TODO
+* [RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management](papers/pap360s4-file1.pdf) demonstrated a system that would run [SLURM](https://slurm.schedmd.com/) inside a container, and use a submitter system to replay jobs based on slurm database logs. Fake system clock was used, along with various patches to enable previous jobs to run in the containerized environment. This technique was far preferred to simulated enviroments as it actually uses the real scheduler and configuration.
 
----
+* Both [Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters](papers/pap541s4-file1.pdf) and [**Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing**](papers/pap311s4-file1.pdf) addressed the question of how to resolve communication bottlenecks in fat-tree networks. The first attempted to resolve it at the scheduler level, by isolating jobs to the switch or pod level (depending on size), along with heuristics to help avoid fragmentation. The second talk demonstrated that typical bottlenecks actually only affected a few links, and this could be addressed with runtime rerouting.
 
+# TODO
 
-### Resource Management
-
-* RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
-* Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
-* **Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing**
-
-### Task-based Programming
+### [Task-based Programming](task-based-programming.md)
 
 * Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes
 * Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs
