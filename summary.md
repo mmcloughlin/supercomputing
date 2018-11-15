@@ -19,6 +19,7 @@
 * **Performance Portability** is still the holy grail. Directives-based approaches don't quite make it. Hope to see more experimentation in language design in this area.
 * **DSLs** Glow, OP2
 * **Quantifying Results** A little disappointed by rigor in the way some presentations reported results. Need greater collection of benchmarks, and resources to enable testing over many platforms (where "performance portability" is claimed).
+* **Resilience** methodologies are changing due to unprecendented scale.
 
 ## Sessions
 
@@ -48,6 +49,8 @@ TL;DR; for selected talks
 
 * The keynote on Facebook's ML compiler [Glow](https://facebook.ai/developers/tools/glow) was worthy of the name.
 
+TODO
+
 ---
 
 * Pointers in OpenMP Lambda CLosures
@@ -63,14 +66,22 @@ TL;DR; for selected talks
 
 ### Keynote
 
-**TL;DR;**
+TODO
 
 ### Resilience
 
-* GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan: "Leadership jobs" are a class of high priority jobs on the Titan supercomputer, typically long-running and occupying 20+% of the machine, hence they are far more suceptible to GPU errors. This talk demonstrated improvements by biasing leadership jobs to stable GPUs.
-* FlipTracker: Understanding Natural Error Resilience in HPC Applications: automated analysis of application error resilience by injecting instruction-level bit errors. Definition of 6 resilient patterns, and demonstrated their use to improve resilience.
+* [GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan](papers/pap262s4-file1.pdf): "Leadership jobs" are a class of high priority jobs on the Titan supercomputer, typically long-running and occupying 20+% of the machine, hence they are far more suceptible to GPU errors. This talk demonstrated improvements by biasing leadership jobs to stable GPUs (maintaining ). Some unintended consequences: when multiple leadership jobs were running, one would get all the stable GPUs. Also potential impact due to de-prioritising network topology in scheduling, but experimentation suggested the effect was tolerable. Reduction of leadership job failures by 30%.
 
-* Lessons Learned from Memory Errors Observed Over the Lifetime of Cielo: Data analysis of memory errors over the entire lifespan of Cielo. Impressive dataset but more or less a "non result": did not find expected age-dependence, and did not show that correctable errors predicted future uncorrectable errors.
+* [FlipTracker: Understanding Natural Error Resilience in HPC Applications](papers/pap109s4-file1.pdf): automated analysis of application error resilience by injecting instruction-level bit errors. Definition of 6 resilient patterns, and demonstrated their use to improve resilience.
+
+* [Lessons Learned from Memory Errors Observed Over the Lifetime of Cielo](papers/pap392s4-file1.pdf): Data analysis of memory errors over the entire lifespan of Cielo. Impressive dataset but more or less a "non result": did not find expected age-dependence, and did not show that correctable errors predicted future uncorrectable errors.
+
+---
+
+#TODO
+
+---
+
 * Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities: exploration of a middle-ground between checkpointing and replication (running two copies) for handling unreliable nodes. At high scale, checkpointing becomes less favorable than replication, but always one of them is preferred over partial replication (replicating subset of tasks). However existing work had assumed equal failure rates of all nodes, which is not borne out in practice. This paper demonstrated that in non-uniform failure rate cases, a (fairly obvious) partial replication scheme can give optimal expected completion time.
 * **Evaluating and Accelerating High-Fidelity Error Injection for HPC**: This explored a mechanism of improving fielity of error injection methods. We can inject at (from low to high): RTL (register transfer language), microarch and instruction level. At the lowest level these are __extremely__ expensive, but high level approaches are too __unrealistic__. TODO
 
@@ -87,17 +98,17 @@ TL;DR; for selected talks
 * Distributed-Memory Hierarchical Compression of Dense SPD Matrices
   ...
 
-### Task-based Programming
-
-* Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes
-* Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs
-* A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints
-
 ### Resource Management
 
 * RM-Replay: A High-Fidelity Tuning, Optimization and Exploration Tool for Resource Management 
 * Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters 
 * **Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing**
+
+### Task-based Programming
+
+* Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes
+* Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs
+* A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints
 
 ### Arithmetic and Optimization
 
@@ -121,4 +132,3 @@ TL;DR; for selected talks
 # File Systems: Data Movement and Provenance
 
 * Dac-Man: Data Change Management for Scientific Datasets on HPC Systems 
-* Stacker: An Autonomic Data Movement Engine for Extreme-Scale Data Staging-Based In Situ Workflows 

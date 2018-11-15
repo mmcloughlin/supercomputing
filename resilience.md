@@ -7,7 +7,7 @@ In Titan, had ~8500
 NVIDIA model:
 
 * Position in rack (top get warmer air)
-* Position in
+* Position in DC
 
 This informs which ones to replace.
 
@@ -36,7 +36,7 @@ Leadership jobs:
 ## Tweaks
 
 * Stable GPUs in low indexes
-* Maintaining Hilbert Curve as much as possible (?)
+* Maintaining Hilbert Curve as much as possible (details?)
 
 Also:
 
