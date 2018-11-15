@@ -2,11 +2,12 @@
 
 ## Followups
 
-* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
+* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
 * ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
 * Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
   https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp
 * x86 machine check architecture?
+* https://cavium.com/
 * Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
 
 
