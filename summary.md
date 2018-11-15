@@ -86,20 +86,18 @@ TODO
 
 ### Large-Scale Algorithms
 
+* [Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers](paper/pap171s4-file1.pdf) This talk was delivered far to quickly in my opinion (used 15 minutes of the allowed 30), and I don't think I was the only one left a bit baffled. As far as I can tell, they gained a massive speedup from a new partitioning scheme.
+
+* [**TriCore: Parallel Triangle Counting on GPUs**](papers/pap140s4-file1.pdf) Far better delivered talk than the above, and a concise tale of how a worse complexity algorithm can actually be better on GPU if it's more memory friendly. Triangle finding uses a sparse adjacency matrix representation: for each edge take the lists of adjacent vertices of each end, and look for repeats. Typically this is done with a merge-sort-like algorithm, but this performs poorly on GPU due to warp splitting. Another method for identifying repeats is to do many binary searches (one for every item in the smaller list), which can be more friendly for SIMD. As the search progresses the memory addresses diverge, but they show an optimization by keeping the top levels in shared memory.
+
+* [Distributed-Memory Hierarchical Compression of Dense SPD Matrices](papers/pap141s4-file1.pdf) This talk went too deep to quickly. Due to missing context, I didn't take much away from this one.
+
 ---
 
 #TODO
 
 ---
 
-
-
-* Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers
-  ...
-* **TriCore: Parallel Triangle Counting on GPUs**
-  this was good!
-* Distributed-Memory Hierarchical Compression of Dense SPD Matrices
-  ...
 
 ### Resource Management
 
