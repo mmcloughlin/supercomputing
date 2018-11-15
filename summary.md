@@ -68,7 +68,7 @@ TODO
 
 TODO
 
-### Resilience
+### [Resilience](resilience.md)
 
 * [GPU Age-Aware Scheduling to Improve the Reliability of Leadership Jobs on Titan](papers/pap262s4-file1.pdf): "Leadership jobs" are a class of high priority jobs on the Titan supercomputer, typically long-running and occupying 20+% of the machine, hence they are far more suceptible to GPU errors. This talk demonstrated improvements by biasing leadership jobs to stable GPUs (maintaining ). Some unintended consequences: when multiple leadership jobs were running, one would get all the stable GPUs. Also potential impact due to de-prioritising network topology in scheduling, but experimentation suggested the effect was tolerable. Reduction of leadership job failures by 30%.
 
@@ -78,8 +78,13 @@ TODO
 
 * [Partial Redundancy in HPC Systems with Non-Uniform Node Reliabilities](papers/pap381s4-file1.pdf): exploration of a middle-ground between checkpointing and replication (running two copies) for handling unreliable nodes. At high scale, checkpointing becomes less favorable than replication, but always one of them is preferred over partial replication (replicating subset of tasks). However existing work had assumed equal failure rates of all nodes, which is not borne out in practice. This paper demonstrated that in non-uniform failure rate cases, a (fairly obvious) partial replication scheme can give optimal expected completion time.
 
-* [**Evaluating and Accelerating High-Fidelity Error Injection for HPC**](papers/pap386s4-file1.pdf): explored a mechanism of improving fidelity of error injection methods. We can inject at (from low to high): RTL (register transfer language), microarchitecture and instruction level. At the lowest level these are __extremely__ expensive, but high level approaches are too __unrealistic__. Their contribution is a heirarchical approach which examines how low-level RTL errors manifest at the instruction level (discarding RTL errors that are nullified by circuit masking). With this approach, they generate errors using what they describe as "nested" Monte Carlo. Offered in the [Hamartia Error Injection Suite](http://lph.ece.utexas.edu/users/hamartia/).
+* [**Evaluating and Accelerating High-Fidelity Error Injection for HPC**](papers/pap386s4-file1.pdf): explored a mechanism of improving fidelity of error injection methods. We can inject at (from low to high): RTL (register transfer language), microarchitecture and instruction level. At the lowest level these are _extremely_ expensive, but high level approaches are too _unrealistic_. Their contribution is a heirarchical approach which examines how low-level RTL errors manifest at the instruction level (discarding RTL errors that are nullified by circuit masking). With this approach, they generate errors using what they describe as "nested" Monte Carlo. Offered in the [Hamartia Error Injection Suite](http://lph.ece.utexas.edu/users/hamartia/).
 
+### [Doctoral Showcase](doctoral.md)
+
+* In-Memory Accelerator Architectures for Machine Learning and Bioinformatics: Content-addressable-memory (CAM) has a grid of bits. Can execute search and write on grid positions matching a pattern. Memristors allow implementation of CAM with __much smaller bit size__. Demonstrated substantial gains for K-Means, K-nearest-neighbors, Smith-Waterman (similar subsquence finding), among other applicaitons in ML and computational biology. Claims that non-von-neuman architectures (_compute in memory_) will provide the next orders of magnitude improvements.
+
+### Large-Scale Algorithms
 
 ---
 
@@ -88,12 +93,6 @@ TODO
 ---
 
 
-
-### Doctoral Showcase
-
-* In-Memory Accelerator Architectures for Machine Learning and Bioinformatics: 
-
-### Large-Scale Algorithms
 
 * Large-Scale Hierarchical K-Means for Heterogeneous Many-Core Supercomputers
   ...
