@@ -112,14 +112,9 @@ TODO
 
 * [**Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures**](papers/pap322s4-file1.pdf) ML Kernels look like FMA inside many layers of nested loops. Described multiple classical approaches to optimization: vectorization, register blocking, re-ordering for cache friendliness, prefetching. Arrived at an interesting "kernel streaming" abstraction.
 
+### [File Systems: Data Movement and Provenance](storage.md)
 
-# TODO
-
-### File Systems: Data Movement and Provenance
-
-* Dac-Man: Data Change Management for Scientific Datasets on HPC Systems 
-
----
+* [Dac-Man: Data Change Management for Scientific Datasets on HPC Systems](pap407s4-file1.pdf) is a change management system for large datasets. Leverages HPC for creating and maintaining indicies. The most interesting aspect was the ability to describe changes of specific file formats, with builtin support for: matricies, HDF, csv, images.
 
 # TODO
 
