@@ -1,19 +1,5 @@
 # Summary
 
-## Followups
-
-* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
-* ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
-* `bfloat16` (generally `int8`, `fp16` in ML) https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf
-* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
-  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/
-* http://tacc.github.io/SDVis/ https://sites.utexas.edu/jdm4372/
-* x86 machine check architecture?
-* https://cavium.com/
-* GEMM (General Matrix Multiply), [LIBXSMM](https://github.com/hfp/libxsmm)
-* Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
-
-
 ## Overall Thoughts
 
 * **Performance Portability** is still the holy grail. Directives-based approaches don't quite make it. Hope to see more experimentation in language design in this area.
@@ -106,13 +92,15 @@ TODO
 
 * [A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints](pap547s4-file1.pdf) tackles the (theoretical) question of upper bounds on schedulers that must optimize for the DAG and power constraints. Optimizing for the DAG alone, greedy techniques will always be within 2x of optimal, and for power alone will always be within 3x. They have shown a join optimizer that must be within `O(log(n))` of optimal. At a high level, the approach optimizes for the DAG first, then performs a bin-packing-like algorithm to satisfy power constraints at the midpoint of execution, then recurses on the halfs, ... hence the `log(n)` component. They show substantial improvements on greedy schedulers under strict power constraints.
 
+### [Arithmetic and Optimization](arithmetic.md)
+
+* [**Associative Instruction Reordering to Alleviate Register Pressure**](papers/pap431s4-file1.pdf) You would think register allocation was solved by now, and it is for almost all general-purpose code. However this talk presents classes of large stencils where the register allocator fails to allocate optimally in arithmetically dense inner loops. Unnecessary register spills can cause high arithmetic density code to be memory bound. Typically this is because heuristics do not consider a long enough range of code. The paper presents some specific scheduling heuristics that perform far better on these types of arithmetically dense codes. Critically, they exploit associativity of arithmetic operators, which _can change floating point results_. Implemented as an [LLVM pre-pass called LARS](https://github.com/pssrawat/LARS).
+
+* [**Harnessing GPU's Tensor Cores Fast FP16 Arithmetic to Speedup Mixed-Precision Iterative Refinement Solvers**](papers/pap464s4-file1.pdf) Excellent overview of mixed-precision floating point operators and tensor cores in modern GPUs. Demonstrated applicatons in traditional matrix algorithms. Specifically, how to use iterative approaches to gain `double`-precision solutions with tensor-core and `fp16` operators.
+
+* [**ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**](papers/pap503s4-file1.pdf) tackles the question of which operations can be _safely_ replaced with lower precision floating point operations in order to achieve a certain tolerable error threshold. Uses a technique called Algorithmic Differentiation to effectively "differentiate a computer program" (for example [CoDiPack](https://github.com/SciCompKL/CoDiPack). This allows them to estimate the change in output by precision reduction of certain variables. Then a greedy approach is used, iteratively reducing precision. Relies on a dynamic trace. Demonstrated 1.2x speedup in LULESH, for example. Nice talk.
+
 # TODO
-
-### Arithmetic and Optimization
-
-* **Associative Instruction Reordering to Alleviate Register Pressure**
-* **Harnessing GPU's Tensor Cores Fast FP16 Arithmetic to Speedup Mixed-Precision Iterative Refinement Solvers**
-* **ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**
 
 ### Programming Systems Tools
 
@@ -129,8 +117,24 @@ TODO
 
 * Dac-Man: Data Change Management for Scientific Datasets on HPC Systems 
 
+---
+
+# TODO
+
 ### BoF
 
 * C++
 * ARM
 * Intel Xeon (missed most of this)
+
+## Followups
+
+* Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
+* ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
+* `bfloat16` (generally `int8`, `fp16` in ML) https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf
+* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
+  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/
+* http://tacc.github.io/SDVis/ https://sites.utexas.edu/jdm4372/
+* x86 machine check architecture?
+* https://cavium.com/
+* GEMM (General Matrix Multiply), [LIBXSMM](https://github.com/hfp/libxsmm)
