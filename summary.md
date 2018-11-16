@@ -100,7 +100,7 @@ TODO
 
 * [**ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**](papers/pap503s4-file1.pdf) tackles the question of which operations can be _safely_ replaced with lower precision floating point operations in order to achieve a certain tolerable error threshold. Uses a technique called Algorithmic Differentiation to effectively "differentiate a computer program" (for example [CoDiPack](https://github.com/SciCompKL/CoDiPack). This allows them to estimate the change in output by precision reduction of certain variables. Then a greedy approach is used, iteratively reducing precision. Relies on a dynamic trace. Demonstrated 1.2x speedup in LULESH, for example. Nice talk.
 
-### Programming Systems Tools
+### [Programming Systems Tools](programming-tools.md)
 
 * [**ParSy: Inspection and Transformation of Sparse Matrix Computations for Parallelism**](papers/pap256s4-file1.pdf) Representing sparse matrix operations (example Cholesky Decomposition) as a DAG to be scheduled. Presented a "H-level inspection" algorithm for optimizing DAG scheduling for parallelism _and_ locality. Depends on the pattern of sparsity byut not on the exact values. Significant speedups over Intel MKL, even when the optimization is done at runtime. Part of the [sympiler project](https://github.com/sympiler/sympiler).
 
