@@ -106,13 +106,14 @@ TODO
 
 * [Detecting MPI Usage Anomalies via Partial Program Symbolic Execution](papers/pap382s4-file1.pdf) "asan" for MPI. Symbolic execution for bug-finding. Partial execution (allowing jumping in at any point) enabled substantial speedups by avoiding irrelevant symbolic execution forks due to non-MPI code. However, jumping in at any point also required handling "lazy memory allocation", essentially `malloc`-ing "shadow memory" later if a pointer is dereferenced. Found bugs that existing solutions could not.
 
+### [Deep Learning](deep-learning.md)
+
+* [**Exploring Flexible Communications for Streamlining DNN Ensemble Training Pipelines**](papers/pap425s4-file1.pdf) Ensemble training is training muliple models on the same data. This talk described extensions to Uber's Horovod framework to allow for preprocessing work to be shared. Supported models are for all nodes to share preporcessing, or a subset. Tested on ORNL Titan.
+
+* [**Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures**](papers/pap322s4-file1.pdf) ML Kernels look like FMA inside many layers of nested loops. Described multiple classical approaches to optimization: vectorization, register blocking, re-ordering for cache friendliness, prefetching. Arrived at an interesting "kernel streaming" abstraction.
+
+
 # TODO
-
-### Deep Learning
-
-* **Exploring Flexible Communications for Streamlining DNN Ensemble Training Pipelines**
-* **Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures**
-
 
 ### File Systems: Data Movement and Provenance
 
@@ -122,7 +123,8 @@ TODO
 
 # TODO
 
-Performance visualization
+* Performance visualization
+* Workshop on Exascale Programming Tools
 
 ### BoF
 
