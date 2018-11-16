@@ -116,16 +116,14 @@ TODO
 
 * [Dac-Man: Data Change Management for Scientific Datasets on HPC Systems](pap407s4-file1.pdf) is a change management system for large datasets. Leverages HPC for creating and maintaining indicies. The most interesting aspect was the ability to describe changes of specific file formats, with builtin support for: matricies, HDF, csv, images.
 
-# TODO
+### [Workshop: Extreme-Scale Programming Tools](tools.md) ([ESPT](https://www.vi-hps.org/front_content.php?idart=343))
 
-* Performance visualization
-* Workshop on Exascale Programming Tools
+* Advanced Event Sampling Support for PAPI. Not as much new here as was hoping. Discussed the PAPI interface to performance counters supplied by Intel PEBS. Asked for feedback on how to expose the Linux perf counter sampling in the PAPI API, either with "event type codes" or by differectly accepting a `perf_event_attr` struct.
 
-### BoF
+* [**PARLOT: Efficient Whole-Program Call Tracing for HPC Applications**](https://pdfs.semanticscholar.org/21f8/596781a02b847612d95e14ef01100668f9b2.pdf)
+  Described a whole-program binary tracing method using [Intel Pin](https://software.intel.com/en-us/articles/pin-a-dynamic-binary-instrumentation-tool) for dynamic instrumentation and compression derived from the [CRUSHER framework](https://userweb.cs.txstate.edu/~mb92/papers/sc16.pdf). ([Related PhD Thesis](https://pdfs.semanticscholar.org/21f8/596781a02b847612d95e14ef01100668f9b2.pdf).)
 
-* C++
-* ARM
-* Intel Xeon (missed most of this)
+* [**Gotcha: A Function-Wrapping Interface for HPC Tools**](https://github.com/LLNL/GOTCHA) Describes problems with traditional `LD_PRELOAD` approach: ABI compatibility, "all or nothing" replacement of a library, and also control at runtime rather than build time. Described the GOTCHA library offering a C library for wrapping, which modifies the "global offset table". Also allows for multiple libraries to hook into the same calls, with a priority mechanism.
 
 ## Followups
 

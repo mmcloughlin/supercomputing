@@ -226,7 +226,7 @@ Dynamic linker prioritized.
 
 * ABI Compatibility
 * "All or nothing". Has to be the entire library.
-* Controlled by the person running the applicaiton, not the one running it.
+* Controlled by the person running the applicaiton, not the one building it.
 
 Need a replacement.
 
