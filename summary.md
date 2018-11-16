@@ -136,8 +136,11 @@ Performance visualization
 * ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
 * `bfloat16` (generally `int8`, `fp16` in ML) https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf
 * Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
-  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/
+  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/, https://github.com/LLNL/Caliper
 * http://tacc.github.io/SDVis/ https://sites.utexas.edu/jdm4372/
 * x86 machine check architecture?
 * https://cavium.com/
 * GEMM (General Matrix Multiply), [LIBXSMM](https://github.com/hfp/libxsmm)
+* Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
+* Intel PEBS, PAPI, Caliper, Darshan
+
