@@ -100,12 +100,13 @@ TODO
 
 * [**ADAPT: Algorithmic Differentiation Applied to Floating-Point Precision Tuning**](papers/pap503s4-file1.pdf) tackles the question of which operations can be _safely_ replaced with lower precision floating point operations in order to achieve a certain tolerable error threshold. Uses a technique called Algorithmic Differentiation to effectively "differentiate a computer program" (for example [CoDiPack](https://github.com/SciCompKL/CoDiPack). This allows them to estimate the change in output by precision reduction of certain variables. Then a greedy approach is used, iteratively reducing precision. Relies on a dynamic trace. Demonstrated 1.2x speedup in LULESH, for example. Nice talk.
 
-# TODO
-
 ### Programming Systems Tools
 
-* **ParSy: Inspection and Transformation of Sparse Matrix Computations for Parallelism**
-* Detecting MPI Usage Anomalies via Partial Program Symbolic Execution
+* [**ParSy: Inspection and Transformation of Sparse Matrix Computations for Parallelism**](papers/pap256s4-file1.pdf) Representing sparse matrix operations (example Cholesky Decomposition) as a DAG to be scheduled. Presented a "H-level inspection" algorithm for optimizing DAG scheduling for parallelism _and_ locality. Depends on the pattern of sparsity byut not on the exact values. Significant speedups over Intel MKL, even when the optimization is done at runtime. Part of the [sympiler project](https://github.com/sympiler/sympiler).
+
+* [Detecting MPI Usage Anomalies via Partial Program Symbolic Execution](papers/pap382s4-file1.pdf) "asan" for MPI. Symbolic execution for bug-finding. Partial execution (allowing jumping in at any point) enabled substantial speedups by avoiding irrelevant symbolic execution forks due to non-MPI code. However, jumping in at any point also required handling "lazy memory allocation", essentially `malloc`-ing "shadow memory" later if a pointer is dereferenced. Found bugs that existing solutions could not.
+
+# TODO
 
 ### Deep Learning
 
@@ -120,6 +121,8 @@ TODO
 ---
 
 # TODO
+
+Performance visualization
 
 ### BoF
 
