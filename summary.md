@@ -98,13 +98,15 @@ TODO
 
 * Both [Evaluation of an Interference-Free Node Allocation Policy on Fat-Tree Clusters](papers/pap541s4-file1.pdf) and [**Mitigating Inter-Job Interference Using Adaptive Flow-Aware Routing**](papers/pap311s4-file1.pdf) addressed the question of how to resolve communication bottlenecks in fat-tree networks. The first attempted to resolve it at the scheduler level, by isolating jobs to the switch or pod level (depending on size), along with heuristics to help avoid fragmentation. The second talk demonstrated that typical bottlenecks actually only affected a few links, and this could be addressed with runtime rerouting.
 
-# TODO
-
 ### [Task-based Programming](task-based-programming.md)
 
-* Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes
-* Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs
-* A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints
+* [Dynamic Tracing: Memoization of Task Graphs for Dynamic Task-Based Runtimes](papers/pap490s4-file1.pdf) Presented a technique for replaying subgraphs of a task graph using dymanic tracing. Showed how to achieve similar performance to static graph execution but in the dynamic case. The [legion programming system](https://legion.stanford.edu/) looks worthy of further investigation.
+
+* [Runtime-Assisted Cache Coherence Deactivation in Task Parallel Programs](papers/pap338s4-file1.pdf) presents a technique at the hardware-software boundary to improve performance by disabling cache coherence for certain data. In particular, in a task-based system we know the inputs to single functions will be private to the program, therefore do not need cache coherence. Specifically this modifies cache directores to add "non-coherent bit" and an additional hardware table containing address ranges which do not require coherence. The non-coherence table can be controlled from software, therefore can be integrated into a task-based runtime. Moreover, an adaptive directory approach was described which would save power by dynamically turning off unoccupied parts of the non-coherent addresses list.
+
+* [A Divide and Conquer Algorithm for DAG Scheduling Under Power Constraints](pap547s4-file1.pdf) tackles the (theoretical) question of upper bounds on schedulers that must optimize for the DAG and power constraints. Optimizing for the DAG alone, greedy techniques will always be within 2x of optimal, and for power alone will always be within 3x. They have shown a join optimizer that must be within `O(log(n))` of optimal. At a high level, the approach optimizes for the DAG first, then performs a bin-packing-like algorithm to satisfy power constraints at the midpoint of execution, then recurses on the halfs, ... hence the `log(n)` component. They show substantial improvements on greedy schedulers under strict power constraints.
+
+# TODO
 
 ### Arithmetic and Optimization
 
@@ -117,14 +119,18 @@ TODO
 * **ParSy: Inspection and Transformation of Sparse Matrix Computations for Parallelism**
 * Detecting MPI Usage Anomalies via Partial Program Symbolic Execution
 
-
-
 ### Deep Learning
 
 * **Exploring Flexible Communications for Streamlining DNN Ensemble Training Pipelines**
 * **Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures**
 
 
-# File Systems: Data Movement and Provenance
+### File Systems: Data Movement and Provenance
 
 * Dac-Man: Data Change Management for Scientific Datasets on HPC Systems 
+
+### BoF
+
+* C++
+* ARM
+* Intel Xeon (missed most of this)
