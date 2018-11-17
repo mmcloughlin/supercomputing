@@ -75,9 +75,24 @@ Thoughts:
 
 * Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM. Described an LLVM-based tool for programming once and running on DSP as well as multi-core CPU architectures. On DSP want to tile loops, fuse kernels, overlap transfers and communication. On multi-core CPU was to optimize for paralellism. Unclear to me how complete this project was, but sounded useful.
 
-### Keynote
+### [Keynote](keynote.md)
 
-TODO
+Very _fluffy_, relative to the rest of the conference. "Most of history has
+been boring from an economic perspective," in terms of its impact on the
+living standards of regular people. Claims Technology (Industrial Revolution
+and beyond) was at the core of the massive growth to 50x the wealth of
+subsistence farmers. We are currently experiencing a new revolution:
+
+* **Mind** to **Machine**: Previously decisions made by the HiPPO (highest
+  paid person's opinion), now data driven. Rise of AI, first wave "teaching
+  machines what we know", second wave "machines that learn".
+
+* **Product** to **Platform**: Every one of the top 7 companies is a platform
+  company. Apple in the smartphone space (app store), Uber and Ridehailing.
+  Network effects and two-sided marketplaces.
+
+* **Core** to **Crowd**: Crowdsourcing. "The smartest people do not work for
+  you."
 
 ### [Resilience](resilience.md)
 
