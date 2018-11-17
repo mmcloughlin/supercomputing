@@ -6,10 +6,11 @@
 * **DSLs** Glow, OP2
 * **Quantifying Results** A little disappointed by rigor in the way some presentations reported results. Need greater collection of benchmarks, and resources to enable testing over many platforms (where "performance portability" is claimed).
 * **Resilience** methodologies are changing due to unprecendented scale.
+* **Mixed-precision**
 
 ## Sessions
 
-### Workshop: Compiler Directives for Accelerator Programming ([WACCPD](https://waccpd.org/))
+### [Workshop: Compiler Directives for Accelerator Programming](workshop-directive-programming.txt) ([WACCPD](https://waccpd.org/))
 
 Intro:
 
@@ -29,26 +30,50 @@ Thoughts:
 * The [OpenMP Target Offloading](https://sc18.supercomputing.org/presentation/?id=ws_waccpd104&sess=sess155) talk was also interesting but disheartening. Essentially it focussed on various optimizations that a compiler could apply (in theory). Unfortunately the OpenMP spec is unclear in whether these are allowed, and moreover they are difficult to perform at in clang (OpenMP later is handled in the Frontend, wheras complier analyses are at the LLVM/IR level)
 * The [Plane Sweep Algorithm](https://sc18.supercomputing.org/presentation/?id=ws_waccpd108&sess=sess155) was difficult to follow, but interesting as an example of using OpenACC for non-standard applications.
 
-### Workshop: LLVM Compiler Infrastructure in HPC
+### [Workshop: LLVM Compiler Infrastructure in HPC](workshop-llvm.md)
 
-TL;DR; for selected talks
+* Talk on **Facebook's ML compiler [Glow](https://facebook.ai/developers/tools/glow)** was a worthy keynote. High level "assembly for ML", upon which various ML optimization passes are performed. Then code generation for x86, OpenCL and various unspecified ASICs. "Profile guided quantization". JIT and Ahead-of-Time (made relatively easy because of LLVM.) GPU backend makes the heaviest use of LLVM, with a couple of custom passes.
 
-* The keynote on Facebook's ML compiler [Glow](https://facebook.ai/developers/tools/glow) was worthy of the name.
+* [Pointers in OpenMP Lambda Closures](papers/pointers-lambda-closures.pdf)
+  Described the problem of handling lambda functions offloaded to GPU, in
+  partiular the case where the lambda closes over a pointer. This can be
+  handled by hacky application of some `#pragma omp` directives. They
+  demonstrate an implicit method within the compiler, with equivalent
+  performance.
 
-TODO
+* [Clacc: OpenACC in Clang](papers/clacc.pdf) describes initial efforts to
+  support OpenACC in Clang. The approach is to map OpenACC to OpenMP, claimed
+  to be a "natural" translation because OpenACC is "descriptive" while OpenMP
+  is "presscriptive". The implementation builds a "hidden" OpenMP AST from a
+  parsed OpenACC ast, which is supported because it doesn't violate Clang AST
+  immutability (you can add nodes). Prioritization: focus on C over C++,
+  implement "prescriptive" parts of OpenACC first (easier mapping), multi-core
+  CPU then CPU.
 
----
+* [`-fsimdmath` on ARM](papers/fsimdmath.pdf) goal is to "vectorize calls to
+  C99 math.h functions". Uses custom name-mangling scheme to describe ARM
+  NEON/SVE math functions. [SLEEF](https://github.com/shibatch/sleef) library
+  provides the actual implemenations. Clang+LLVM changes required in frontend
+  and backend, to commuicate the target vectoried versions through the the
+  `LoopVectorizer` pass. Work on upstreaming and combining with existing `-fveclib`.
 
-* Pointers in OpenMP Lambda CLosures
-* Clacc: OpenACC in Clang
-* -fsimdmath on ARM
-* Function/Kernel Vectorization via Loop Vectorizer
-* User-directed Loop Transformations in Clang
-* OP2: DSL in Clang/LibTooling
-* PInT: Pattern Instrumentation Tool
-* Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM
+* [**User-directed Loop Transformations in Clang**](papers/user-directed-loops.pdf) attempts to unify the many disparate loop `#pragma`s. Specifically: take order into account, give loops IDs so pragmas can be separated from the loops themselves (supporting optimizers). Hoping to standardize in OpenMP at some point.
 
----
+* [**OP2-Clang: A Source-to-Source Translator Using Clang/LLVM
+  LibTooling**](papers/op2.pdf) presented a DSL for algorithms on unstructured
+  grids (graph structures) where parallelization is a minefield of data races.
+  OP2 calls expand to substantial loop structures. This is a Clang/LibTooling
+  approach that rewrites the AST. To avoid horiffic AST building code they have "templates" written in C that make calls to stub functions. The tool parses the AST and replaces stub calls with desired function calls, like template expansion. Reminds me of [genny](https://github.com/cheekybits/genny), and brings similar benfits since the template code can be parsed/tested independently. Why didn't they use C++ templates?
+
+* [PInT: Pattern Instrumentation Tool](papers/pint.pdf) left me a bit
+  confused, to be honest. Seems to be part of an effort to better-understand
+  development and optimization effort in codebases. Provide a mechanism for
+  tagging instances of parallel programming "patterns" (map, reduce, critical,
+  ...) in code and then gathering some kind of metrics on them. I was left
+  somewhat unclear what these metrics were, and the requirement of manual
+  tagging seemed disappointing.
+
+* Compiler Optimization for Heterogeneous Locality and Homogeneous Parallelism in OpenCL and LLVM. Described an LLVM-based tool for programming once and running on DSP as well as multi-core CPU architectures. On DSP want to tile loops, fuse kernels, overlap transfers and communication. On multi-core CPU was to optimize for paralellism. Unclear to me how complete this project was, but sounded useful.
 
 ### Keynote
 
