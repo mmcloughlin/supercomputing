@@ -169,6 +169,12 @@ subsistence farmers. We are currently experiencing a new revolution:
 
 * [**Gotcha: A Function-Wrapping Interface for HPC Tools**](https://github.com/LLNL/GOTCHA) Describes problems with traditional `LD_PRELOAD` approach: ABI compatibility, "all or nothing" replacement of a library, and also control at runtime rather than build time. Described the GOTCHA library offering a C library for wrapping, which modifies the "global offset table". Also allows for multiple libraries to hook into the same calls, with a priority mechanism.
 
+## Birds of a Feather
+
+* [Distributed and Heterogeneous Programming in C++ for HPC 2018](bof-cpp-heterogeneous.md)
+* [The ARM HPC Experience: From Testbeds to Exascale](bof-arm.md)
+* [Achieving Performance on Large-Scale Intel Xeon-Based Systems](bof-xeon-scale.md)
+
 ## Followups
 
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
