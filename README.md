@@ -4,13 +4,18 @@
 
 Notes from Supercomputing Conference in Dallas, November 11-16, 2018.
 
-## Overall Thoughts
+## Themes
 
 * **Performance Portability** is still the holy grail. Directives-based approaches don't quite make it. Hope to see more experimentation in language design in this area.
-* **DSLs** Glow, OP2
+
+* With heterogeneous computing firmly establised, we're seeing more **Domain Specific Languages** and compilers. For example [Glow](https://facebook.ai/developers/tools/glow) for Deep Learning and [OP2](https://op-dsl.github.io/) for parallel mesh code.
+
 * **Quantifying Results** A little disappointed by rigor in the way some presentations reported results. Need greater collection of benchmarks, and resources to enable testing over many platforms (where "performance portability" is claimed).
+
 * **Resilience** methodologies are changing due to unprecendented scale.
-* **Mixed-precision**
+
+* **Mixed-precision** is increasingly important in deep learning applications
+  and beyond, as bandwidth per compute is driven down.
 
 ## Sessions
 
