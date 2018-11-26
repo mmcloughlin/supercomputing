@@ -205,14 +205,13 @@ subsistence farmers. We are currently experiencing a new revolution:
 ## Followups
 
 * Parallelism abstractions: [RAJA](https://github.com/LLNL/RAJA), [kokkos](https://github.com/kokkos/kokkos) ([example](https://github.com/UoB-HPC/advanced-hpc-examples/blob/master/Kokkos/vecadd-kokkos.cpp)), [SYCL](https://www.khronos.org/registry/SYCL/specs/sycl-1.2.pdf)
-* ARM NEON + SVE. [SLEEF](https://github.com/shibatch/sleef). AVVPCS
-* `bfloat16` (generally `int8`, `fp16` in ML) https://software.intel.com/sites/default/files/managed/40/8b/bf16-hardware-numerics-definition-white-paper.pdf
-* Projects: https://github.com/kavon/atJIT, https://op-dsl.github.io/,
-  https://github.com/RWTH-HPC/PInT, https://github.com/LLNL/TraceR, https://github.com/StanfordLegion/legion, http://regent-lang.org/, https://github.com/pssrawat/LARS, Tensor cores, https://github.com/SciCompKL/CoDiPack, http://tapenade.inria.fr:8080/tapenade/index.jsp, https://klee.github.io/, https://github.com/LLNL/Caliper
+* ARM: NEON and
+  [SVE](https://developer.arm.com/docs/dui0965/latest/sve-overview/introducing-sve),
+  [SLEEF](https://github.com/shibatch/sleef), AVVPCS, [Cavium](https://cavium.com/)
+* [`bfloat16`](https://developer.arm.com/docs/dui0965/latest/sve-overview/introducing-sve) (generally `int8`, `fp16` in ML)
+* Projects: [atJIT](https://github.com/kavon/atJIT), [OP2](https://op-dsl.github.io/), [PInT](https://github.com/RWTH-HPC/PInT), [TraceR](https://github.com/LLNL/TraceR), [legion](https://github.com/StanfordLegion/legion), [regent](http://regent-lang.org/), [LARS](https://github.com/pssrawat/LARS), Tensor cores, [CoDiPack](https://github.com/SciCompKL/CoDiPack), [tapenade](http://tapenade.inria.fr:8080/tapenade/index.jsp), [klee](https://klee.github.io/), [Caliper](https://github.com/LLNL/Caliper)
 * http://tacc.github.io/SDVis/ https://sites.utexas.edu/jdm4372/
-* x86 machine check architecture?
-* https://cavium.com/
-* GEMM (General Matrix Multiply), [LIBXSMM](https://github.com/hfp/libxsmm)
-* Interesting companies/teams: [CodePlay](https://www.codeplay.com/), Arm Development Solution Group
-* Intel PEBS, PAPI, Caliper, Darshan
+* [x86 machine check architecture](https://en.wikipedia.org/wiki/Machine_Check_Architecture)
+* [LIBXSMM](https://github.com/hfp/libxsmm)
+* Intel PEBS, [PAPI](http://icl.utk.edu/papi/), Caliper, [Darshan](https://www.mcs.anl.gov/research/projects/darshan/)
 
