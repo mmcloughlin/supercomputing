@@ -200,6 +200,10 @@ subsistence farmers. We are currently experiencing a new revolution:
   adoption still poor, but hoping increased adoption will drive down costs for
   HPC too.
 
+## Other
+
+* [Workshop: Visual Performance Analysis](workshop-visual-performance-analysis.md) Not summarizing, as I didn't gain much from this workshop.
+
 * [Achieving Performance on Large-Scale Intel Xeon-Based Systems](bof-xeon-scale.md) Extremely limited notes, as I was only able to catch the very end.
 
 ## Followups
