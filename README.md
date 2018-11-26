@@ -1,6 +1,6 @@
-# SC18
-
 <p align="center"><img src="https://i.imgur.com/LdECucq.jpg" /></p>
+
+# SC18
 
 Notes from Supercomputing Conference in Dallas, November 11-16, 2018.
 
@@ -171,9 +171,31 @@ subsistence farmers. We are currently experiencing a new revolution:
 
 ## Birds of a Feather
 
-* [Distributed and Heterogeneous Programming in C++ for HPC 2018](bof-cpp-heterogeneous.md)
-* [The ARM HPC Experience: From Testbeds to Exascale](bof-arm.md)
-* [Achieving Performance on Large-Scale Intel Xeon-Based Systems](bof-xeon-scale.md)
+* [**Distributed and Heterogeneous Programming in C++ for HPC
+  2018**](bof-cpp-heterogeneous.md) C++20 will have a notion of an `executor`,
+  something with an `execute()` method. This is the first step of a journey to
+  support execution on a variety of backends. The new standard will also bring
+  semaphores and atomic wait. SIMD library was also accepted so "You should
+  never have to write an intrinsic again in your life." The SIMD library is a
+  starting point: control flow is still a lot of work for the programmer, for
+  example remainder loops are still not handled. Discussion on the `mdspan`
+  abstraction of multi-dimensional array layout which specifies how a
+  multi-dimensional index is mapped to a 1-dimensional memory address. Kokkos
+  has introduced this concept allowing a compile-time choice of data layout,
+  as well as "views" into data.
+
+* [The ARM HPC Experience: From Testbeds to Exascale](bof-arm.md) Recent
+  launch of
+  [Astra](https://www.top500.org/news/sandia-to-install-first-petascale-supercomputer-powered-by-arm-processors/),
+  the first petascale ARM supercomputer. Discussion of
+  [Isambard](http://gw4.ac.uk/isambard/) supercomputer at University of
+  Bristol. Broadly: favorable performance/power comparison to server-class
+  x86, but much better _performance for price_. Challenges with memory
+  bandwidth and compiler immaturity (bugs and slow compilation times). Cloud
+  adoption still poor, but hoping increased adoption will drive down costs for
+  HPC too.
+
+* [Achieving Performance on Large-Scale Intel Xeon-Based Systems](bof-xeon-scale.md) Extremely limited notes, as I was only able to catch the very end.
 
 ## Followups
 
