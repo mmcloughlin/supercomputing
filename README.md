@@ -1,6 +1,6 @@
-<p align="center"><img src="https://i.imgur.com/LdECucq.jpg" /></p>
-
 # SC18
+
+<p align="center"><img src="https://i.imgur.com/LdECucq.jpg" /></p>
 
 Notes from Supercomputing Conference in Dallas, November 11-16, 2018.
 
